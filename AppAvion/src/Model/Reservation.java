@@ -1,14 +1,17 @@
 package Model;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Reservation {
     private Client client;
     private Vol vol;
-    private Date dateReservation;
-    private int price;
+    private LocalDate dateReservation;
+    private float price;
 
-    public Reservation(Client client, Vol vol, Date dateReservation, int price) {
+    public Reservation(Client client, Vol vol, LocalDate dateReservation, float price) {
         this.client = client;
         this.vol = vol;
         this.dateReservation = dateReservation;
@@ -31,19 +34,28 @@ public class Reservation {
         this.vol = vol;
     }
 
-    public Date getDateReservation() {
+    public LocalDate getDateReservation() {
         return dateReservation;
     }
 
-    public void setDateReservation(Date dateReservation) {
+    public void setDateReservation(LocalDate dateReservation) {
         this.dateReservation = dateReservation;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        return String.format("Reservation{Client='%s %s', Vol=%d, Date de réservation=%s}",
+                client.getName(), client.getSurname(), vol.getNumero(),
+                dateReservation.format(dateFormatter));
     }
 }

@@ -48,4 +48,8 @@ public class Client {
         this.mdp = mdp;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Client{name='%s', surname='%s', email='%s'}", name, surname, email);
+    }
 }

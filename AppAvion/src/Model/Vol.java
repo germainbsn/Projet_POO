@@ -1,20 +1,23 @@
 package Model;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class Vol {
 
     private int numero;
     private City start;
     private City end;
-    private Date dateStart;
-    private Date dateEnd;
+    private LocalDate dateStart;
+    private LocalDate dateEnd;
     private int capacity;
     private float price;
 
 
-    public Vol(ArrayList<Client> clients, int numero, City start, City end, Date dateStart, Date dateEnd, int capacity, float price) {
+    public Vol(int numero, City start, City end, LocalDate dateStart, LocalDate dateEnd, int capacity, float price) {
         this.numero = numero;
         this.start = start;
         this.end = end;
@@ -40,19 +43,19 @@ public class Vol {
         this.end = end;
     }
 
-    public Date getDateStart() {
+    public LocalDate getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(Date dateStart) {
+    public void setDateStart(LocalDate dateStart) {
         this.dateStart = dateStart;
     }
 
-    public Date getDateEnd() {
+    public LocalDate getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(Date dateEnd) {
+    public void setDateEnd(LocalDate dateEnd) {
         this.dateEnd = dateEnd;
     }
 
@@ -79,6 +82,23 @@ public class Vol {
     public void setNumero(int numero) {
         this.numero = numero;
     }
+
+    public String toString() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        return String.format("Vol numero: %d\n" +
+                        "De: %s\n" +
+                        "À: %s\n" +
+                        "Date de départ: %s\n" +
+                        "Date d'arrivée: %s\n" +
+                        "Capacité: %d\n" +
+                        "Prix: %.2f",
+                numero, start.toString(), end.toString(), dateStart.format(dateFormatter),
+                dateEnd.format(dateFormatter), capacity, price);
+    }
+
+
+
 
 
 }
