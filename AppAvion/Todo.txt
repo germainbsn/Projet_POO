@@ -1,0 +1,17 @@
+- Problème à résoudre faire des tests deux fois une reservation ( Debugger germain)
+- Journalisation des connexions et des echecs de connexion.
+- Permettre à l'utilisateur d'acheter plus qu'une place, lors de l'appel reserver revérifier qu'il y est de la place
+- Mettre à jour le nombre de place restantes dans les fichiers des vols, Journalisation.aj.
+- Aspect securite.aj, qui va checker avant l'appel de certaine methode si le client a bien les droits.
+- modifier prix de reservation en fonction des droits.
+
+Rapport :
+
+- Intro POA qu'est que c'est etc...
+- Notre projet intro
+- Notre projet presentation, diagramme de classe
+- Avantage et inconvenient de la AOP
+- Amelioration possibles
+- Conclu
+- Ref
+
