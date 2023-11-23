@@ -8,12 +8,14 @@ public class Client {
     private String surname;
     private String email;
     private String mdp;
+    private Droit droit;
 
     public Client(String name, String surname, String email, String mdp) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.mdp = mdp;
+        this.droit = Droit.CLASSIQUE;
     }
 
     public String getName() {
@@ -48,8 +50,16 @@ public class Client {
         this.mdp = mdp;
     }
 
+    public Droit getDroit() {
+        return droit;
+    }
+
+    public void setDroit(Droit droit) {
+        this.droit = droit;
+    }
+
     @Override
     public String toString() {
-        return String.format("Client{name='%s', surname='%s', email='%s'}", name, surname, email);
+        return String.format("Client name='%s', surname='%s', email='%s'", name, surname, email);
     }
 }

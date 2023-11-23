@@ -54,8 +54,9 @@ public class Reservation {
     public String toString() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        return String.format("Reservation{Client='%s %s', Vol=%d, Date de réservation=%s}",
-                client.getName(), client.getSurname(), vol.getNumero(),
-                dateReservation.format(dateFormatter));
+        return String.format("Reservation{Client='%s %s', Vol=%s, Date de réservation=%s, Ville de départ : '%s'" +
+                        "Ville d'arrivée :'%s' }",
+                client.getName(), client.getSurname(), vol.getIdentifiant(),
+                dateReservation.format(dateFormatter),vol.getStart().toString(),vol.getEnd().toString());
     }
 }

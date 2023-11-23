@@ -2,29 +2,30 @@ package Model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class Vol {
 
-    private int numero;
+    private String identifiant;
     private City start;
     private City end;
     private LocalDate dateStart;
     private LocalDate dateEnd;
     private int capacity;
-    private float price;
+    private int capacityMax;
+    private float priceMin;
+    private float priceCurrent;
 
 
-    public Vol(int numero, City start, City end, LocalDate dateStart, LocalDate dateEnd, int capacity, float price) {
-        this.numero = numero;
+    public Vol(String identifiant, City start, City end, LocalDate dateStart, LocalDate dateEnd, int capacity, float price) {
+        this.identifiant = identifiant;
         this.start = start;
         this.end = end;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.capacity = capacity;
-        this.price = price;
+        this.capacityMax = capacity;
+        this.priceMin = price;
+        this.priceCurrent = price;
     }
 
     public City getStart() {
@@ -68,33 +69,53 @@ public class Vol {
     }
 
     public float getPrice() {
-        return price;
+        return priceMin;
     }
 
-    public void setPrice(float price) {
-        this.price = price;
+    public void setPriceMin(float price) {
+        this.priceMin = price;
     }
 
-    public int getNumero() {
-        return numero;
+    public String getIdentifiant() {
+        return identifiant;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public void setIdentifiant(String id) {
+        this.identifiant = id;
+    }
+
+    public int getCapacityMax() {
+        return capacityMax;
+    }
+
+    public void setCapacityMax(int capacityMax) {
+        this.capacityMax = capacityMax;
+    }
+
+    public float getPriceMin() {
+        return priceMin;
+    }
+
+    public float getPriceCurrent() {
+        return priceCurrent;
+    }
+
+    public void setPriceCurrent(float priceCurrent) {
+        this.priceCurrent = priceCurrent;
     }
 
     public String toString() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        return String.format("Vol numero: %d\n" +
+        return String.format("Vol numero: %s\n" +
                         "De: %s\n" +
                         "À: %s\n" +
                         "Date de départ: %s\n" +
                         "Date d'arrivée: %s\n" +
                         "Capacité: %d\n" +
                         "Prix: %.2f",
-                numero, start.toString(), end.toString(), dateStart.format(dateFormatter),
-                dateEnd.format(dateFormatter), capacity, price);
+                identifiant, start.toString(), end.toString(), dateStart.format(dateFormatter),
+                dateEnd.format(dateFormatter), capacity, priceCurrent);
     }
 
 

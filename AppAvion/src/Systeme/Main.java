@@ -127,12 +127,19 @@ public class Main {
             k++;
         }
 
-        System.out.println("Selectionnez le vol à reserver");
+        System.out.println("Selectionnez le vol à reserver, 0 pour retourner en arriere");
 
         int choix = scanner.nextInt();
-        systemeReservation.reserver(volsTrouve.get(choix-1),clientConnecte);
-        System.out.println ("Vol réservé");
+
+        if (choix == 0 ) {
+            System.out.println("... Retour au Menu...");
+        }
+        else {
+            systemeReservation.reserver(volsTrouve.get(choix-1),clientConnecte);
+            System.out.println ("Vol réservé");
+        }
         afficherMenuConnecte();
+
     }
 
     private static Client connexion() {
