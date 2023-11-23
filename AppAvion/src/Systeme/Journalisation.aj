@@ -34,7 +34,7 @@ public aspect Journalisation {
 
         try {
             FileWriter writer = new FileWriter(avion.nomFichier);
-            writer.write(avion.toString() + "\nPlace restantes : " + avion.getCapacity() +"\n");
+            writer.write(avion.toString() + "Place restantes : " + avion.getCapacity() +"\n");
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -47,7 +47,7 @@ public aspect Journalisation {
         try {
             FileWriter writer = new FileWriter(avion.nomFichier, true);
             BufferedWriter bf = new BufferedWriter(writer);
-            bf.write(LocalDate.now().toString() + " : " + client.toString()+ " a réservé au prix de "+ avion.getPrice()+"€\n");
+            bf.write("\n"+LocalDate.now().toString() + " : " + client.toString()+ " a réservé au prix de "+ avion.getPrice()+"€");
             bf.close();
             List<String> lignes = Files.readAllLines(Path.of(avion.nomFichier));
             lignes.set(7,"Places restantes : ");
@@ -62,7 +62,7 @@ public aspect Journalisation {
     after(Vol avion, Client client) : writeReservation(client, avion) {
         try {
             List<String> lignes = Files.readAllLines(Path.of(avion.nomFichier));
-            lignes.set(7,"Places restantes : "+ avion.getCapacity());
+            lignes.set(7,"Places restantes : " + avion.getCapacity());
             Files.write(Path.of(avion.nomFichier),lignes, StandardOpenOption.WRITE);
 
         } catch (IOException e) {
