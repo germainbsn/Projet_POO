@@ -17,8 +17,6 @@ public class Main {
     static SystemeReservation systemeReservation = new SystemeReservationImpl();
     static Client clientConnecte = null;
     public static void main(String[] args) {
-
-
         while (true) {
             afficherMenuConnexion();
             Client client;
@@ -145,7 +143,7 @@ public class Main {
     private static Client connexion() {
         System.out.print("Veuillez inscrire votre email : ");
         String email = scanner.next();
-        System.out.print("Veuillez inscrire votre  : ");
+        System.out.print("Veuillez inscrire votre mot de passe : ");
         String mdp = scanner.next();
         return systemeAuth.connexion(email,mdp);
 
