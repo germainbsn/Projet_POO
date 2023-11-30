@@ -19,7 +19,7 @@ public aspect JournalisationInfoAvion {
     private String Vol.nomFichier = null;
 
     pointcut generateNewFile() : execution(Model.Vol.new(..));
-    pointcut writeReservation(Client client, Vol avion ) : execution (public boolean Systeme.SystemeReservationImpl.reserver(Vol, Client)) && args(avion,client);
+    pointcut writeReservation(Client client, float prix, Vol avion ) : execution (public boolean Systeme.SystemeReservationImpl.reserver(Vol,float, Client)) && args(avion,prix,client);
     pointcut writeAnnulation(Reservation reservation) : execution (public boolean Systeme.SystemeReservationImpl.annuler(Reservation)) && args(reservation);
     pointcut deleteAllFile() : execution(Systeme.SystemeReservationImpl.new(..));
 
@@ -52,8 +52,8 @@ public aspect JournalisationInfoAvion {
 
         try {
             FileWriter writer = new FileWriter(avion.nomFichier);
-            writer.write(avion.toString() + "Place restantes : " + avion.getCapacity() +"\n");
-            writer.write(avion.toString() + "Benefice du vol : " + avion.getBenefice() +"\n");
+            writer.write(avion.toString() + "\nPlace restantes : " + avion.getCapacity());
+            //writer.write(avion.toString() + "Benefice du vol : " + avion.getBenefice() +"\n");
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -62,24 +62,24 @@ public aspect JournalisationInfoAvion {
 
     }
 
-    boolean around(Vol avion, Client client) : writeReservation(client, avion) {
+    boolean around(Vol avion, float prix, Client client) : writeReservation(client, prix,avion) {
         try {
 
             FileWriter writer = new FileWriter(avion.nomFichier, true);
             BufferedWriter bf = new BufferedWriter(writer);
-            bf.write("\n"+LocalDate.now().toString() + " : " + client.toString()+ " a réservé au prix de "+ avion.getPrice()+"€");
+            bf.write("\n"+LocalDate.now().toString() + " : " + client.toString()+ " a réservé au prix de "+ prix+"€");
             bf.close();
             List<String> lignes = Files.readAllLines(Path.of(avion.nomFichier));
             lignes.set(7,"Places restantes : ");
             Files.write(Path.of(avion.nomFichier),lignes, StandardOpenOption.WRITE);
-            return proceed(avion,client);
+            return proceed(avion,prix,client);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    after(Vol avion, Client client) : writeReservation(client, avion) {
+    after(Vol avion, float prix, Client client) : writeReservation(client, prix, avion) {
         try {
             List<String> lignes = Files.readAllLines(Path.of(avion.nomFichier));
             lignes.set(7,"Places restantes : " + avion.getCapacity());

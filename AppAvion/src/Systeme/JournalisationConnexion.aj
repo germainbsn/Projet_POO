@@ -12,7 +12,7 @@ public aspect JournalisationConnexion {
 
     private String fileName = "Connexion/suiviConnexion.txt";
 
-    pointcut generateNewFile() : execution(public static void main(String[]));
+    pointcut generateNewFile() : execution(SystemeAuth.new(..));
     pointcut writeConnexion(String email, String mdp) : execution (public Client Systeme.SystemeAuth.connexion(String, String)) && args(email, mdp);
     pointcut writeInscription(String email,String name,String surname, String mdp) : execution (public Client Systeme.SystemeAuth.inscription(String,String,String,String)) && args(email,name,surname,mdp);
 
@@ -38,7 +38,7 @@ public aspect JournalisationConnexion {
             else {
                 bf.write(LocalTime.now().toString() + " Connexion de "
                         + client.getEmail() +" "+ client .getName()+" "
-                        + client.getSurname());
+                        + client.getSurname()+"\n");
             }
             bf.close();
         } catch (IOException e) {
@@ -56,7 +56,7 @@ public aspect JournalisationConnexion {
             else {
                 bf.write(LocalTime.now().toString() + " Nouvelle inscription de "
                         + client.getEmail() +" "+ client .getName()+" "
-                        + client.getSurname() + "!");
+                        + client.getSurname() + "!\n");
             }
             bf.close();
         } catch (IOException e) {

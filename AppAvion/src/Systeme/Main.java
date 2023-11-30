@@ -8,8 +8,7 @@ import Model.Vol;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
@@ -116,12 +115,15 @@ public class Main {
         scanner.nextLine();
         LocalDate dateDebut = LocalDate.parse(scanner.nextLine(), dateFormatter);
 
-        ArrayList<Vol> volsTrouve = systemeReservation.chercher(dateDebut,startCity,endCity);
+        HashMap<Vol,Float> volsTrouve = systemeReservation.chercher(dateDebut,startCity,endCity);
+        List<Vol> vols =  new ArrayList<>();
+        vols.addAll(volsTrouve.keySet());
 
         int k = 1;
-        for (Vol vol : volsTrouve) {
+        for (Map.Entry<Vol, Float> entry : volsTrouve.entrySet()) {
             System.out.println(k+" - ");
-            System.out.println(vol.toString());
+            System.out.println(entry.getKey().toStringWithoutPrice());
+            System.out.println("Prix : "+ entry.getValue() +"€");
             k++;
         }
 
@@ -133,7 +135,8 @@ public class Main {
             System.out.println("... Retour au Menu...");
         }
         else {
-            systemeReservation.reserver(volsTrouve.get(choix-1),clientConnecte);
+            Vol choixVol = vols.get(choix-1);
+            systemeReservation.reserver(choixVol,volsTrouve.get(choixVol),clientConnecte);
             System.out.println ("Vol réservé");
         }
         afficherMenuConnecte();

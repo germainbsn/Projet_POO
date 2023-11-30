@@ -6,8 +6,7 @@ import Model.Reservation;
 import Model.Vol;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SystemeReservationImpl implements SystemeReservation{
@@ -44,7 +43,7 @@ public class SystemeReservationImpl implements SystemeReservation{
 
 
     @Override
-    public boolean reserver(Vol avion, Client client) {
+    public boolean reserver(Vol avion, float prix, Client client) {
         reservations.add(new Reservation(client,avion,LocalDate.now(),avion.getPrice()));
         avion.setCapacity(avion.getCapacity()-1);
         return true;
@@ -58,11 +57,14 @@ public class SystemeReservationImpl implements SystemeReservation{
     }
 
     @Override
-    public ArrayList<Vol> chercher(LocalDate dateStart, City startCity, City endCity) {
+    public HashMap<Vol, Float> chercher(LocalDate dateStart, City startCity, City endCity) {
         int a = 2;
-        return (ArrayList<Vol>) vols.stream().filter(vol -> vol.getDateStart().equals(dateStart)
-                && vol.getStart().equals(startCity) && vol.getEnd() == endCity && vol.getCapacity()>0)
-                .collect(Collectors.toList());
+        return (HashMap<Vol, Float>) vols.stream().filter(vol -> vol.getDateStart().equals(dateStart)
+                && vol.getStart().equals(startCity)
+                && vol.getEnd() == endCity
+                && vol.getCapacity()>0)
+                .collect(Collectors.toMap(
+                        vol -> vol,Vol::getPrice));
     }
 
     @Override

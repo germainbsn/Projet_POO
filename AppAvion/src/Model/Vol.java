@@ -118,6 +118,19 @@ public class Vol {
                 dateEnd.format(dateFormatter), capacity, priceCurrent);
     }
 
+    public String toStringWithoutPrice() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        return String.format("Vol numero: %s\n" +
+                        "De: %s\n" +
+                        "À: %s\n" +
+                        "Date de départ: %s\n" +
+                        "Date d'arrivée: %s\n" +
+                        "Capacité: %d\n",
+                identifiant, start.toString(), end.toString(), dateStart.format(dateFormatter),
+                dateEnd.format(dateFormatter), capacity, priceCurrent);
+    }
+
 
 
 
