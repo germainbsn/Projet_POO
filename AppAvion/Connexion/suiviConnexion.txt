@@ -1,0 +1,4 @@
+------------Fichier de journalisation des connexions---------- 
+13:08:31.269816700 : Tentative de connexion échoué avec l'email gerge
+13:08:35.274560400 : Tentative de connexion échoué avec l'email gerg
+13:08:52.152628500Nouvelle inscription de gzerkzjhmz Besson germain.beson@gmail.com!
