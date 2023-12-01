@@ -10,12 +10,12 @@ public class Client {
     private String mdp;
     private Droit droit;
 
-    public Client(String name, String surname, String email, String mdp) {
+    public Client(String name, String surname, String email, String mdp, Droit droit) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.mdp = mdp;
-        this.droit = Droit.CLASSIQUE;
+        this.droit = droit;
     }
 
     public String getName() {

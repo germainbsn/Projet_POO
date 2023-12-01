@@ -1,6 +1,7 @@
 package Systeme;
 
 import Model.Client;
+import Model.Droit;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class SystemeAuthImpl implements SystemeAuth {
             return null;
         }
         else {
-            Client newClient = new Client(name,surname,email,mdp);
+            Client newClient = new Client(name,surname,email,mdp, Droit.VIP);
             this.clients.add(newClient);
             return newClient;
         }

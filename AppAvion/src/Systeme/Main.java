@@ -1,9 +1,6 @@
 package Systeme;
 
-import Model.City;
-import Model.Client;
-import Model.Reservation;
-import Model.Vol;
+import Model.*;
 
 
 import java.time.LocalDate;
@@ -50,7 +47,8 @@ public class Main {
         System.out.println("Bienvenue que souhaitez-vous faire ! ");
         System.out.println("1- Rechercher un vol");
         System.out.println("2- Consulter mes billets");
-        System.out.println("3- Se deconnecter");
+        System.out.println("3- Gérer mes avantages");
+        System.out.println("4- Se deconnecter");
         int choix = scanner.nextInt();
         switch (choix) {
             case 1 :
@@ -60,14 +58,34 @@ public class Main {
                 afficherMenuBillet();
                 break;
             case 3 :
+                afficherAvantage();
+                break;
+            case 4 :
                 System.out.println("Deconnexion...");
                 clientConnecte = null;
                 main(null);
                 break;
+
             default :
                 System.out.println("Choix invalide réessayez");
                 afficherMenuConnecte();
         }
+
+    }
+
+    private static void afficherAvantage() {
+        System.out.println("---------Vos avantage-----------");
+        System.out.println("Vos droits : " + clientConnecte.getDroit());
+        if(clientConnecte.getDroit() == Droit.CLASSIQUE) {
+            System.out.println("Vous pouvez passer en VIP et bénéficier de réduction pour 300€ ! ");
+            System.out.println("Pour passer VIP tapez 1, pour retourner au menu tapez 2");
+            int choix = scanner.nextInt();
+            if (choix == 1 ) {
+                System.out.println("Vous passez vip !");
+                clientConnecte.setDroit(Droit.VIP);
+            }
+        }
+        afficherMenuConnecte();
 
     }
 
