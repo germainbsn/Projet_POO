@@ -68,14 +68,6 @@ public class Vol {
         this.capacity = capacity;
     }
 
-    public float getPrice() {
-        return priceMin;
-    }
-
-    public void setPriceMin(float price) {
-        this.priceMin = price;
-    }
-
     public String getIdentifiant() {
         return identifiant;
     }
@@ -102,6 +94,10 @@ public class Vol {
 
     public void setPriceCurrent(float priceCurrent) {
         this.priceCurrent = priceCurrent;
+    }
+
+    public void setPriceMin(float priceMin) {
+        this.priceMin = priceMin;
     }
 
     public String toString() {

@@ -97,6 +97,7 @@ public class Main {
         for(Reservation reservation : reservations) {
             System.out.println(i + " - ");
             System.out.println(reservation.toString());
+            i++;
         }
         System.out.println("Vous pouvez annuler vos billets en tapant le numero de reservation, 0 pour retourner");
         int choix = scanner.nextInt();

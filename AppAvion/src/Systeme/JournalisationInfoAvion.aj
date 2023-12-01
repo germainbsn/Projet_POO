@@ -19,7 +19,7 @@ public aspect JournalisationInfoAvion {
     private String Vol.nomFichier = null;
 
     pointcut generateNewFile() : execution(Model.Vol.new(..));
-    pointcut writeReservation(Client client, float prix, Vol avion ) : execution (public boolean Systeme.SystemeReservationImpl.reserver(Vol,float, Client)) && args(avion,prix,client);
+    pointcut writeReservation(Client client, float prix, Vol avion ) : execution (public boolean Systeme.SystemeReservationImpl.reserver(Vol, float , Client)) && args(avion,prix,client);
     pointcut writeAnnulation(Reservation reservation) : execution (public boolean Systeme.SystemeReservationImpl.annuler(Reservation)) && args(reservation);
     pointcut deleteAllFile() : execution(Systeme.SystemeReservationImpl.new(..));
 
@@ -52,7 +52,7 @@ public aspect JournalisationInfoAvion {
 
         try {
             FileWriter writer = new FileWriter(avion.nomFichier);
-            writer.write(avion.toString() + "\nPlace restantes : " + avion.getCapacity());
+            writer.write(avion.toString() + "\nPlaces restantes : " + avion.getCapacity());
             //writer.write(avion.toString() + "Benefice du vol : " + avion.getBenefice() +"\n");
             writer.close();
         } catch (IOException e) {
@@ -64,14 +64,12 @@ public aspect JournalisationInfoAvion {
 
     boolean around(Vol avion, float prix, Client client) : writeReservation(client, prix,avion) {
         try {
-
-            FileWriter writer = new FileWriter(avion.nomFichier, true);
-            BufferedWriter bf = new BufferedWriter(writer);
-            bf.write("\n"+LocalDate.now().toString() + " : " + client.toString()+ " a réservé au prix de "+ prix+"€");
-            bf.close();
             List<String> lignes = Files.readAllLines(Path.of(avion.nomFichier));
-            lignes.set(7,"Places restantes : ");
+            lignes.set(7,"Places restantes : "+avion.getCapacity());
             Files.write(Path.of(avion.nomFichier),lignes, StandardOpenOption.WRITE);
+            FileWriter writer = new FileWriter(avion.nomFichier, true);
+            writer.write(LocalDate.now().toString() + " : " + client.toString()+ " a réservé au prix de "+ prix+"€");
+            writer.close();
             return proceed(avion,prix,client);
 
         } catch (IOException e) {
@@ -92,11 +90,18 @@ public aspect JournalisationInfoAvion {
 
     boolean around(Reservation reservation) : writeAnnulation(reservation) {
         try {
-            FileWriter writer = new FileWriter(reservation.getVol().nomFichier, true);
-            BufferedWriter bf = new BufferedWriter(writer);
-            bf.write(LocalDate.now().toString() + " : " + reservation.getClient().toString()+ " a annulé ");
-            bf.close();
-            return proceed(reservation);
+            boolean isRemove = proceed(reservation);
+            if(isRemove) {
+                Vol avion = reservation.getVol();
+                List<String> lignes = Files.readAllLines(Path.of(avion.nomFichier));
+                lignes.set(7,"Places restantes : "+avion.getCapacity());
+                Files.write(Path.of(avion.nomFichier),lignes, StandardOpenOption.WRITE);
+                FileWriter writer = new FileWriter(avion.nomFichier, true);
+                writer.write(LocalDate.now().toString() + " : " + reservation.getClient().toString()+ " a annulé");
+                writer.close();
+            }
+
+            return isRemove;
 
         } catch (IOException e) {
             throw new RuntimeException(e);

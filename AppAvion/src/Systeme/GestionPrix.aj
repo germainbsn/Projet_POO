@@ -32,7 +32,7 @@ public aspect GestionPrix {
     }
 
     after(Vol avion,float prix ,Client client) : changePrice(avion,prix,client) {
-        avion.benefice += avion.getPrice();
+        avion.benefice += prix;
         avion.setPriceCurrent(avion.getPriceMin()*(2-(float) avion.getCapacity() / avion.getCapacityMax()));
     }
 

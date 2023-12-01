@@ -44,16 +44,18 @@ public class SystemeReservationImpl implements SystemeReservation{
 
     @Override
     public boolean reserver(Vol avion, float prix, Client client) {
-        reservations.add(new Reservation(client,avion,LocalDate.now(),avion.getPrice()));
+        reservations.add(new Reservation(client,avion,LocalDate.now(),avion.getPriceCurrent()));
         avion.setCapacity(avion.getCapacity()-1);
         return true;
     }
 
     @Override
     public boolean annuler(Reservation reservation) {
-        reservation.getVol().setCapacity(reservation.getVol().getCapacity()+1);
-        this.reservations.remove(reservation);
-        return true;
+        boolean remove = this.reservations.remove(reservation);
+        if (remove) {
+            reservation.getVol().setCapacity(reservation.getVol().getCapacity()+1);
+        }
+        return remove;
     }
 
     @Override
@@ -64,7 +66,7 @@ public class SystemeReservationImpl implements SystemeReservation{
                 && vol.getEnd() == endCity
                 && vol.getCapacity()>0)
                 .collect(Collectors.toMap(
-                        vol -> vol,Vol::getPrice));
+                        vol -> vol,Vol::getPriceCurrent));
     }
 
     @Override
