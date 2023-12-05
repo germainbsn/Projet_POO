@@ -27,7 +27,7 @@ public interface SystemeReservation {
 
     //boolean supressionAvion(Vol avion) throws PermissionDeniedException;
 
-    //boolean modificationReservation(Reservation reservation) throws PermissionDeniedException;
+    boolean modificationVol(String idVol, LocalDate start, LocalDate end) throws PermissionDeniedException;
 
 
 }

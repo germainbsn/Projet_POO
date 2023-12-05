@@ -48,7 +48,8 @@ public class Main {
         System.out.println("1- Rechercher un vol");
         System.out.println("2- Consulter mes billets");
         System.out.println("3- Gérer mes avantages");
-        System.out.println("4- Se deconnecter");
+        System.out.println("4- Outil administrateur (réserver aux administrateur)");
+        System.out.println("5- Se deconnecter");
         int choix = scanner.nextInt();
         switch (choix) {
             case 1 :
@@ -61,6 +62,8 @@ public class Main {
                 afficherAvantage();
                 break;
             case 4 :
+                afficherAdmin();
+            case 5 :
                 System.out.println("Deconnexion...");
                 clientConnecte = null;
                 main(null);
@@ -70,6 +73,50 @@ public class Main {
                 System.out.println("Choix invalide réessayez");
                 afficherMenuConnecte();
         }
+
+    }
+
+    private static void afficherAdmin() {
+        System.out.println("Bienvenue dans l'outil administrateur ");
+        System.out.println("1- Modifier date d'un vol");
+        System.out.println("2- Retour");
+        System.out.println("3- Deconnexion");
+
+        int choix = scanner.nextInt();
+        switch (choix) {
+            case 1 :
+                afficherMenuModifVol();
+                break;
+            case 2 :
+                afficherMenuConnecte();
+                break;
+            case 3 :
+                System.out.println("Deconnexion...");
+                clientConnecte = null;
+                main(null);
+                break;
+
+            default :
+                System.out.println("Choix invalide réessayez");
+                afficherAdmin();
+        }
+
+    }
+
+    private static void afficherMenuModifVol() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        System.out.print("Entrez l'identifiant de vol a modifier : ");
+        String idVol = scanner.next();
+        System.out.print("Entrez la nouvelle date de depart : ");
+        LocalDate newStartDate = LocalDate.parse(scanner.next(), dateFormatter);
+        System.out.print("Entrez la nouvelle date d'arrivé : ");
+        LocalDate newEndDate = LocalDate.parse(scanner.next(), dateFormatter);
+        if(systemeReservation.modificationVol(idVol,newStartDate,newEndDate)) {
+            System.out.println("Vol modifié avec succés");
+        } else{
+            System.out.println("Erreur veuillez réessayer");
+        }
+        afficherAdmin();
 
     }
 

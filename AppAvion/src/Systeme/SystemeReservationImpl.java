@@ -86,6 +86,19 @@ public class SystemeReservationImpl implements SystemeReservation{
         return this.citiesDeserve;
     }
 
+    @Override
+    public boolean modificationVol(String idVol, LocalDate start, LocalDate end) throws PermissionDeniedException {
+        Optional<Vol> volTrouve = vols.stream()
+                .filter(vol -> vol.getIdentifiant().toLowerCase().equals(idVol.toLowerCase()))
+                .findFirst();
+        if(volTrouve.isPresent()) {
+            Vol vol = volTrouve.get();
+            vol.setDateStart(start);
+            vol.setDateEnd(end);
+        }
+        return volTrouve.isPresent();
+    }
+
     private String generateRandomString() {
 
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
