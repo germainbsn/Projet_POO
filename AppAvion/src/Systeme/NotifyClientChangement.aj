@@ -54,8 +54,9 @@ public aspect NotifyClientChangement extends ObserverPattern {
         Client c = proceed(email,mdp);
         if(c!= null) {
             System.out.println(c.getMessage());
+            c.setMessage("");
         }
-        c.setMessage("");
+
         return c;
 
     }

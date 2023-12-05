@@ -43,9 +43,9 @@ public class SystemeReservationImpl implements SystemeReservation{
 
 
     @Override
-    public boolean reserver(Vol avion, float prix, Client client) {
-        reservations.add(new Reservation(client,avion,LocalDate.now(),avion.getPriceCurrent()));
-        avion.setCapacity(avion.getCapacity()-1);
+    public boolean reserver(Vol avion, float prix, Client client,int nbTicket) {
+        reservations.add(new Reservation(client,avion,LocalDate.now(),avion.getPriceCurrent(),nbTicket));
+        avion.setCapacity(avion.getCapacity()-nbTicket);
         return true;
     }
 
@@ -53,18 +53,18 @@ public class SystemeReservationImpl implements SystemeReservation{
     public boolean annuler(Reservation reservation) {
         boolean remove = this.reservations.remove(reservation);
         if (remove) {
-            reservation.getVol().setCapacity(reservation.getVol().getCapacity()+1);
+            reservation.getVol().setCapacity(reservation.getVol().getCapacity()+reservation.getNbTicket());
         }
         return remove;
     }
 
     @Override
-    public HashMap<Vol, Float> chercher(LocalDate dateStart, City startCity, City endCity) {
+    public HashMap<Vol, Float> chercher(LocalDate dateStart, City startCity, City endCity, int nbTicket) {
         int a = 2;
         return (HashMap<Vol, Float>) vols.stream().filter(vol -> vol.getDateStart().equals(dateStart)
                 && vol.getStart().equals(startCity)
                 && vol.getEnd() == endCity
-                && vol.getCapacity()>0)
+                && vol.getCapacity()>=nbTicket)
                 .collect(Collectors.toMap(
                         vol -> vol,Vol::getPriceCurrent));
     }

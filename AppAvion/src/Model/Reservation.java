@@ -10,12 +10,14 @@ public class Reservation {
     private Vol vol;
     private LocalDate dateReservation;
     private float price;
+    private int nbTicket;
 
-    public Reservation(Client client, Vol vol, LocalDate dateReservation, float price) {
+    public Reservation(Client client, Vol vol, LocalDate dateReservation, float price, int nbTicket) {
         this.client = client;
         this.vol = vol;
         this.dateReservation = dateReservation;
         this.price = price;
+        this.nbTicket = nbTicket;
     }
 
     public Client getClient() {
@@ -48,6 +50,14 @@ public class Reservation {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public int getNbTicket() {
+        return nbTicket;
+    }
+
+    public void setNbTicket(int nbTicket) {
+        this.nbTicket = nbTicket;
     }
 
     @Override

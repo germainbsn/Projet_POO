@@ -11,7 +11,11 @@ public class SystemeAuthImpl implements SystemeAuth {
     ArrayList<Client> clients;
 
     public SystemeAuthImpl() {
+
         this.clients = new ArrayList<>();
+        clients.add (new Client("admin","admin","admin","admin",Droit.ADMIN));
+        clients.add(new Client ("normal","normal","normal@gmail.com","normal",Droit.CLASSIQUE));
+        clients.add(new Client ("vip","vip","vip@gmail.com","vip",Droit.VIP));
     }
 
     @Override

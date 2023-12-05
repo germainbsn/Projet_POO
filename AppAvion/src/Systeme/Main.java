@@ -111,12 +111,18 @@ public class Main {
         LocalDate newStartDate = LocalDate.parse(scanner.next(), dateFormatter);
         System.out.print("Entrez la nouvelle date d'arrivé : ");
         LocalDate newEndDate = LocalDate.parse(scanner.next(), dateFormatter);
-        if(systemeReservation.modificationVol(idVol,newStartDate,newEndDate)) {
-            System.out.println("Vol modifié avec succés");
-        } else{
-            System.out.println("Erreur veuillez réessayer");
+        try {
+            if(systemeReservation.modificationVol(idVol,newStartDate,newEndDate)) {
+                System.out.println("Vol modifié avec succés");
+            } else{
+                System.out.println("Erreur veuillez réessayer");
+            }
+            afficherAdmin();
+        } catch (PermissionDeniedException e){
+            e.getMessage();
+            afficherMenuConnecte();
         }
-        afficherAdmin();
+
 
     }
 
@@ -175,13 +181,14 @@ public class Main {
         System.out.print("Entrez le numéro de la ville d'arrivée : ");
         int choixArrive = scanner.nextInt();
         City endCity = cities.get(choixArrive-1);
+        System.out.print("Entrez le nombre de ticket souhaité : ");
+        int nbTicket = scanner.nextInt();
 
-
-        System.out.print("Entrez la date de depart : ");
+        System.out.print("Entrez la date de depart au format dd/MM/yyyy: ");
         scanner.nextLine();
         LocalDate dateDebut = LocalDate.parse(scanner.nextLine(), dateFormatter);
 
-        HashMap<Vol,Float> volsTrouve = systemeReservation.chercher(dateDebut,startCity,endCity);
+        HashMap<Vol,Float> volsTrouve = systemeReservation.chercher(dateDebut,startCity,endCity,nbTicket);
         List<Vol> vols =  new ArrayList<>();
         vols.addAll(volsTrouve.keySet());
 
@@ -189,7 +196,7 @@ public class Main {
         for (Map.Entry<Vol, Float> entry : volsTrouve.entrySet()) {
             System.out.println(k+" - ");
             System.out.println(entry.getKey().toStringWithoutPrice());
-            System.out.println("Prix : "+ entry.getValue() +"€");
+            System.out.println("Prix total : "+ entry.getValue()*nbTicket +"€");
             k++;
         }
 
@@ -202,7 +209,7 @@ public class Main {
         }
         else {
             Vol choixVol = vols.get(choix-1);
-            systemeReservation.reserver(choixVol,volsTrouve.get(choixVol),clientConnecte);
+            systemeReservation.reserver(choixVol,volsTrouve.get(choixVol),clientConnecte,nbTicket);
             System.out.println ("Vol réservé");
         }
         afficherMenuConnecte();

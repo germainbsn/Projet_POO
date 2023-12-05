@@ -109,9 +109,10 @@ public class Vol {
                         "Date de départ: %s\n" +
                         "Date d'arrivée: %s\n" +
                         "Capacité: %d\n" +
-                        "Prix: %.2f",
+                        "Prix Minimal: %.2f\n" +
+                        "Prix courrant: %.2f ",
                 identifiant, start.toString(), end.toString(), dateStart.format(dateFormatter),
-                dateEnd.format(dateFormatter), capacity, priceCurrent);
+                dateEnd.format(dateFormatter), capacity, priceMin,priceCurrent);
     }
 
     public String toStringWithoutPrice() {

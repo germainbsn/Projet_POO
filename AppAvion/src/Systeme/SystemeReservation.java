@@ -6,18 +6,16 @@ import Model.Vol;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public interface SystemeReservation {
 
 
-    boolean reserver(Vol avion, float prix , Client client);
+    boolean reserver(Vol avion, float prix , Client client, int nbTicket);
 
     boolean annuler(Reservation reservation);
 
-    HashMap<Vol, Float> chercher(LocalDate dateStart, City startCity, City endCity);
+    HashMap<Vol, Float> chercher(LocalDate dateStart, City startCity, City endCity, int nbTicket);
 
     ArrayList<Reservation> getReservations(Client client);
 
