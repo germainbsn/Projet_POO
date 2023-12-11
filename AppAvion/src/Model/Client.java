@@ -1,18 +1,16 @@
 package Model;
 
-import java.util.ArrayList;
-
 public class Client {
 
     private String name;
-    private String surname;
+    private String firstName;
     private String email;
     private String mdp;
     private Droit droit;
 
-    public Client(String name, String surname, String email, String mdp, Droit droit) {
+    public Client(String name, String firstName, String email, String mdp, Droit droit) {
         this.name = name;
-        this.surname = surname;
+        this.firstName = firstName;
         this.email = email;
         this.mdp = mdp;
         this.droit = droit;
@@ -26,12 +24,12 @@ public class Client {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getEmail() {
@@ -60,6 +58,6 @@ public class Client {
 
     @Override
     public String toString() {
-        return String.format("Client name='%s', surname='%s', email='%s'", name, surname, email);
+        return String.format("Client name='%s', surname='%s', email='%s'", name, firstName, email);
     }
 }

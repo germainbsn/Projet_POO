@@ -22,6 +22,7 @@ public aspect JournalisationInfoAvion {
     pointcut writeReservation(Client client, float prix, Vol avion, int nbTicket ) : execution (public boolean Systeme.SystemeReservationImpl.reserver(Vol, float , Client, int)) && args(avion,prix,client,nbTicket);
     pointcut writeAnnulation(Reservation reservation) : execution (public boolean Systeme.SystemeReservationImpl.annuler(Reservation)) && args(reservation);
     pointcut writeCurrentPrice(Vol avion) : target (avion) && call(void Model.Vol.setPriceCurrent(float));
+    pointcut writeCurrentCapacity(Vol avion) : target (avion) && call(void Model.Vol.setCapacity(int));
     pointcut deleteAllFile() : execution(Systeme.SystemeReservationImpl.new(..));
 
 
@@ -80,20 +81,9 @@ public aspect JournalisationInfoAvion {
         }
     }
 
-    after(Vol avion, float prix, Client client, int nbTicket) : writeReservation(client, prix, avion, nbTicket) {
-        try {
-            List<String> lignes = Files.readAllLines(Path.of(avion.nomFichier));
-            lignes.set(8,"Places restantes : " + avion.getCapacity());
-            Files.write(Path.of(avion.nomFichier),lignes, StandardOpenOption.WRITE);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     after(Vol avion) : writeCurrentPrice(avion) {
         try {
-            System.out.println("passage current");
             List<String> lignes = Files.readAllLines(Path.of(avion.nomFichier));
             lignes.set(7,"Prix courrant : " + avion.getPriceCurrent());
             Files.write(Path.of(avion.nomFichier),lignes, StandardOpenOption.WRITE);
@@ -102,6 +92,16 @@ public aspect JournalisationInfoAvion {
         }
     }
 
+    after(Vol avion) : writeCurrentCapacity(avion) {
+        try {
+            System.out.println("passage current");
+            List<String> lignes = Files.readAllLines(Path.of(avion.nomFichier));
+            lignes.set(8,"Places restantes : " + avion.getCapacity());
+            Files.write(Path.of(avion.nomFichier),lignes, StandardOpenOption.WRITE);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     boolean around(Reservation reservation) : writeAnnulation(reservation) {
         try {
             boolean isRemove = proceed(reservation);
@@ -111,7 +111,7 @@ public aspect JournalisationInfoAvion {
                 lignes.set(7,"Places restantes : "+avion.getCapacity());
                 Files.write(Path.of(avion.nomFichier),lignes, StandardOpenOption.WRITE);
                 FileWriter writer = new FileWriter(avion.nomFichier, true);
-                writer.write(LocalDate.now().toString() + " : " + reservation.getClient().toString()+ " a annulé");
+                writer.write(LocalDate.now().toString() + " : " + reservation.getClient().toString()+ " a annulé" + reservation.getNbTicket()+ "sieges");
                 writer.close();
             }
 
@@ -122,15 +122,5 @@ public aspect JournalisationInfoAvion {
         }
     }
 
-    after(Reservation reservation) : writeAnnulation(reservation) {
-        try {
-            List<String> lignes = Files.readAllLines(Path.of(reservation.getVol().nomFichier));
-            lignes.set(7,"Places restantes : "+ reservation.getVol().getCapacity());
-            Files.write(Path.of(reservation.getVol().nomFichier),lignes, StandardOpenOption.WRITE);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 }

@@ -4,7 +4,7 @@ import Model.Client;
 
 import java.util.ArrayList;
 
-public abstract aspect  ObserverPattern {
+public abstract aspect ObserverPattern {
 
     ArrayList<Observer> Observable.observers = new ArrayList<>();
     abstract pointcut updateObserver(Observable obs);
@@ -13,7 +13,6 @@ public abstract aspect  ObserverPattern {
     public void Observable.addObserver(Observer obs) {
 
         if(!(this.observers.contains(obs))) {
-            System.out.println("ajout");
             observers.add(obs);
         }
     }
@@ -29,7 +28,6 @@ public abstract aspect  ObserverPattern {
     }
 
     after(Observable obs): updateObserver(obs) {
-        System.out.println("NOTIFIER");
         obs.notifyObservers();
     }
 

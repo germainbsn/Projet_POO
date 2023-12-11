@@ -1,6 +1,7 @@
 package Systeme;
 
 import Model.Client;
+import Model.Reservation;
 import Model.Vol;
 import java.time.LocalDate;
 import Model.Client;
@@ -31,6 +32,7 @@ public aspect NotifyClientChangement extends ObserverPattern {
 
     pointcut updateObserver(Observable obs) : target (obs) && call(void Model.Vol.setDateStart(java.time.LocalDate));
     pointcut addObserver(Client client, float prix, Vol avion) : execution (public boolean Systeme.SystemeReservationImpl.reserver(Vol, float , Client)) && args(avion,prix,client);
+    pointcut removeObserver(Reservation reservation) : execution(public boolean Systeme.SystemeReservationImpl.annuler(Reservation)) && args(reservation);
 
     pointcut writeNotificationConnexion(String email, String mdp) : execution (public Client Systeme.SystemeAuth.connexion(String, String)) && args(email, mdp);
 
@@ -47,6 +49,14 @@ public aspect NotifyClientChangement extends ObserverPattern {
         Observable vol = (Observable) avion;
         if(bool) {
             vol.addObserver((Observer) client);
+        }
+    }
+
+    after(Reservation reservation) : removeObserver(reservation) {
+        SystemeReservationImpl syst = (SystemeReservationImpl) thisJoinPoint.getTarget();
+        if (syst.getReservations(reservation.getClient()).size() == 0) {
+            Observable observable = (Observable) reservation.getVol();
+            observable.removeObserver((Observer)reservation.getClient());
         }
     }
 

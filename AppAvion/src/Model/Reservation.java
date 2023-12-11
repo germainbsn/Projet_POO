@@ -1,9 +1,7 @@
 package Model;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class Reservation {
     private Client client;
@@ -66,7 +64,7 @@ public class Reservation {
 
         return String.format("Reservation{Client='%s %s', Vol=%s, Date de réservation=%s, Ville de départ : '%s'" +
                         "Ville d'arrivée :'%s' }",
-                client.getName(), client.getSurname(), vol.getIdentifiant(),
+                client.getName(), client.getFirstName(), vol.getIdentifiant(),
                 dateReservation.format(dateFormatter),vol.getStart().toString(),vol.getEnd().toString());
     }
 }

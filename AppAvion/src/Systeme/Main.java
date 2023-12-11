@@ -13,6 +13,11 @@ public class Main {
     static SystemeReservation systemeReservation = new SystemeReservationImpl();
     static Client clientConnecte = null;
     public static void main(String[] args) {
+        afficherMenuPrincipal();
+    }
+
+    public static void afficherMenuPrincipal() {
+
         while (true) {
             afficherMenuConnexion();
             Client client;
@@ -33,9 +38,10 @@ public class Main {
                     main(null);
             }
         }
+
     }
 
-    private static void afficherMenuConnexion (){
+    private static void afficherMenuConnexion () {
         System.out.println("Veuillez vous connecter ou vous inscrire");
         System.out.println("1- Se connecter");
         System.out.println("2- S'inscrire");
@@ -43,7 +49,7 @@ public class Main {
 
     }
 
-    private static void afficherMenuConnecte (){
+    public static void afficherMenuConnecte (){
         System.out.println("Bienvenue que souhaitez-vous faire ! ");
         System.out.println("1- Rechercher un vol");
         System.out.println("2- Consulter mes billets");
@@ -81,7 +87,6 @@ public class Main {
         System.out.println("1- Modifier date d'un vol");
         System.out.println("2- Retour");
         System.out.println("3- Deconnexion");
-
         int choix = scanner.nextInt();
         switch (choix) {
             case 1 :
@@ -227,14 +232,14 @@ public class Main {
 
     private static Client inscription() {
         System.out.print("Veuillez inscrire votre prenom : ");
-        String surname = scanner.next();
+        String firstName = scanner.next();
         System.out.print("Veuillez inscrire votre nom : ");
         String name = scanner.next();
         System.out.print("Veuillez inscrire votre email : ");
         String email = scanner.next();
         System.out.print("Veuillez inscrire votre mdp : ");
         String mdp = scanner.next();
-        return systemeAuth.inscription(email,name,surname,mdp);
+        return systemeAuth.inscription(email,name,firstName,mdp);
 
     }
 
